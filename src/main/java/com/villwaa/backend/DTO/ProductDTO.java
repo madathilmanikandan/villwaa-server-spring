@@ -1,7 +1,6 @@
 package com.villwaa.backend.DTO;
 
 import com.villwaa.backend.Model.ProductCategory;
-import com.villwaa.backend.Model.Variant;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Getter;
