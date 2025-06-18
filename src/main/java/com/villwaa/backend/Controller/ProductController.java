@@ -22,7 +22,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/products")
+    @GetMapping("/api/products")
     public ResponseEntity<List<ProductDTO>> getAllProducts(){
        return ResponseEntity.ok(productService.getProducts());
     }
@@ -32,7 +32,7 @@ public class ProductController {
             @ApiResponse(responseCode = "201", description = "Product created"),
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
-    @PostMapping("/product")
+    @PostMapping("/api/product")
     public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO){
         return ResponseEntity.ok(productService.createProduct(productDTO));
     }

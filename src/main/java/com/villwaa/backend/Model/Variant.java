@@ -16,6 +16,7 @@ import java.util.List;
 public class Variant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "variant_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

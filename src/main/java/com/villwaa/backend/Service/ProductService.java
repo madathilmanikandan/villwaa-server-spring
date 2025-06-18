@@ -69,22 +69,25 @@ public class ProductService {
                 .specifications(productDto.getSpecifications())
                 .isBestSeller(productDto.getIsBestSeller())
                 .quantity(productDto.getStockQuantity())
-                .thumbnails(new ArrayList<String>(productDto.getThumbnails()) {
+                .thumbnails(new ArrayList<>(productDto.getThumbnails()) {
                 })
                 .variants(productDto.getVariants().stream().map(this::toVariant).collect(Collectors.toList())).build();
     }
 
     private Variant toVariant(VariantDTO variantDto){
-        return Variant.builder()
+        Variant variant =  Variant.builder()
                 .color(variantDto.getColor())
                 .isPrimaryVariant(variantDto.is_primary_variant())
                 .images(variantDto.getImages().stream()
                         .map(this::toProductImage).collect(Collectors.toList())).build();
+        variant.getImages().forEach(productImage -> productImage.setVariant(variant));
+        return variant;
     }
 
     private ProductImage toProductImage(ProductImageDTO productImageDto){
         return ProductImage.builder()
                 .url(productImageDto.getUrl()).build();
+
     }
 
     @Transactional
@@ -105,7 +108,8 @@ public class ProductService {
                 .build();
 
         if (productDto.getVariants() !=null){
-            List<Variant> variants = productDto.getVariants().stream().map(this::toVariant).toList();
+            List<Variant> variants = productDto.getVariants().stream().map(this::toVariant).collect(Collectors.toList());
+            variants.forEach(variant -> variant.setProduct(product));
             product.setVariants(variants);
         }
         Product savedProduct  = productRepository.save(product);
